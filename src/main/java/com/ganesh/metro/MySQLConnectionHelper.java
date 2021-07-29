@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class MySQLConnection {
+public class MySQLConnectionHelper {
     public static Connection getConnection() throws ClassNotFoundException, SQLException, IOException {
         Properties properties = new Properties();
         FileInputStream fileInputStream = new FileInputStream("DbConnection.properties");

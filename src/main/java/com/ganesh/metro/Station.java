@@ -11,4 +11,7 @@ public class Station {
     private final int stationId;
     private String stationName;
 
+    public String toString(){
+        return "[Station ID: "+stationId +" Station Name: "+stationName +"]";
+    }
 }

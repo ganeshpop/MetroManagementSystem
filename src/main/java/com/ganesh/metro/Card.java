@@ -9,15 +9,17 @@ import java.sql.Timestamp;
 
 @Getter
 @AllArgsConstructor
-@RequiredArgsConstructor
+
 
 public class Card {
     private int cardId;
-    @NotNull
     private final String cardType;
-    @NotNull
     private final int balance;
-    @NotNull
-    private final Timestamp activeSince;
+    private Timestamp activeSince;
 
+    public Card(String cardType, int balance) {
+        this.cardType = cardType;
+        this.balance = balance;
+
+    }
 }

@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 @ToString
 @Getter
 public class Transaction {
-    private final int cardId;
+    private  int cardId;
     private  int transactionId;
     private  Station sourceStation;
     private  Station destinationStation;
@@ -24,6 +24,12 @@ public class Transaction {
         this.fare = fare;
         this.swipeInTimeStamp = swipeInTimeStamp;
         this.swipeOutTimeStamp = swipeOutTimeStamp;
+    }
+
+    public Transaction(int transactionId, Station destinationStation, int fare) {
+        this.transactionId = transactionId;
+        this.destinationStation = destinationStation;
+        this.fare = fare;
     }
 
     public Transaction(int cardId, Station sourceStation){
