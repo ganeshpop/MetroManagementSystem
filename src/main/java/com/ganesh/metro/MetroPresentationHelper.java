@@ -9,7 +9,7 @@ public class MetroPresentationHelper {
     public static Card createCard(){
         String name;
         while (true) {
-            System.out.println("Enter Student Name: ");
+            System.out.println("Enter Your Name: ");
             name = scanner.nextLine();
             if(name.length() > 0) break;
             else System.out.println("Invalid Name");
@@ -17,18 +17,24 @@ public class MetroPresentationHelper {
         System.out.println("Welcome! " + name + " \ud83d\ude01");
         while (true) {
             System.out.println("Enter initial Balance: ");
-            int initialBalance = scanner.nextInt();
-            if(initialBalance >= 100) return new Card("Basic", initialBalance);
+            String initialBalance = scanner.nextLine();
+            if (isInt(initialBalance) >= 100) return new Card("Basic", Integer.parseInt(initialBalance));
             else System.out.println("Minimum Card Balance for New Users is 100/- ");
         }
     }
 
-    public static void displayTransactions(Collection<Transaction> transactions){
-
+    public static void displayTransactions(Collection<Transaction> transactions,boolean isSwipeOut){
+            if(isSwipeOut){
+                System.out.println(("--------------- Trip Completed ---------------"));
+            }
             if (transactions.size() == 0) {
                 System.out.println("No Transactions Retrieved");
             } else {
                 for (Transaction transaction : transactions) {
+                    if (transaction.getTransactionId() == 0) {
+                        System.out.println("No Travel History Found");
+                        break;
+                    }
                     StringBuilder transactionString = new StringBuilder();
                     transactionString.append("-------------- Trip " + transaction.getTransactionId() + " Details --------------")
                                     .append("\nCard ID: ")
@@ -101,12 +107,18 @@ public class MetroPresentationHelper {
         if (stations.size() == 0) {
             System.out.println("No Stations Retrieved");
         } else {
-            stationString.append("[ Station ID : Station Name ]-");
+            stationString.append("\n [ Station ID : Station Name ]\n");
             for (Station station: stations) {
-                stationString.append("-[ ").append(station.getStationId()).append(" : ").append(station.getStationName()).append( " ]-")  ;
+                stationString.append("\t    [ ").append(station.getStationId()).append(" : ").append(station.getStationName()).append( " ]  \n")  ;
             }
         }
-        System.out.println(stationString);
+        System.out.print(stationString);
+    }
+    public static int isInt(String input){
+        if(input.matches("[0-9]+")){
+            return Integer.parseInt(input);
+        }
+        return -1;
     }
 }
 

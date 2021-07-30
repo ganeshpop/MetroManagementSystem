@@ -2,10 +2,12 @@ package com.ganesh.metro;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.sql.Timestamp;
 @ToString
+@NoArgsConstructor
 @Getter
 public class Transaction {
     private  int cardId;

@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class MetroDaoHelper {
 
@@ -27,7 +26,10 @@ public class MetroDaoHelper {
             int fare = resultSet.getInt("fare");
             Timestamp swipeInTimeStamp = resultSet.getTimestamp("swipe_in_time_stamp");
             Timestamp swipeOutTimeStamp = resultSet.getTimestamp("swipe_out_time_stamp");
-            transactions.add(new Transaction(transactionId, cardId, sourceStation, destinationStation, fare, swipeInTimeStamp, swipeOutTimeStamp));
+            transactions.add(new Transaction(cardId, transactionId, sourceStation, destinationStation, fare, swipeInTimeStamp, swipeOutTimeStamp));
+        }
+        if(transactions.size() == 0) {
+            transactions.add(new Transaction());
         }
         return transactions;
     }
