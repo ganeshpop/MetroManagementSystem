@@ -1,5 +1,10 @@
 package com.ganesh.metro;
 
+import com.ganesh.exceptions.InsufficientBalanceException;
+import com.ganesh.exceptions.InvalidStationException;
+import com.ganesh.exceptions.InvalidSwipeInException;
+import com.ganesh.exceptions.InvalidSwipeOutException;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -39,11 +44,9 @@ public class MetroPresentation implements MetroPresentationInterface {
         System.out.println("\t\t3.View Card Details");
         System.out.println("\t\t4.Recharge Card");
         System.out.println("\t\t5.List Stations");
-        System.out.println("\t\t6.List Stations");
-        System.out.println("\t\t7.List Stations");
-        System.out.println("\t\t8.Swipe In");
-        System.out.println("\t\t9.Swipe Out");
-        System.out.println("\t\t9.Exit");
+        System.out.println("\t\t6.Swipe In");
+        System.out.println("\t\t7.Swipe Out");
+        System.out.println("\t\t8.Exit");
 
     }
 
@@ -56,23 +59,93 @@ public class MetroPresentation implements MetroPresentationInterface {
                 } catch (SQLException | ClassNotFoundException | IOException e) {
                     e.printStackTrace();
                 }
+                break;
             }
             case 2: {
-                System.out.print("Enter Your Card Id: ");
                 System.out.print("Enter Your Metro Card Id: ");
                 String cardId = scanner.nextLine();
                 if (cardId.matches("[0-9]+")) {
                     try {
-                        for (Transaction transaction :metroService.getAllTransactions(Integer.parseInt(cardId))) {
-
-                        }
-                    } catch (SQLException | ClassNotFoundException | IOException throwables) {
-                        throwables.printStackTrace();
+                        MetroPresentationHelper.displayTransactions(metroService.getAllTransactions(Integer.parseInt(cardId)));
+                    } catch (SQLException | ClassNotFoundException | IOException e) {
+                        e.printStackTrace();
                     }
-
                 } else System.out.println("Only Integers are Allowed");
+                break;
+            }
+            case 3: {
+                System.out.print("Enter Your Metro Card Id: ");
+                String cardId = scanner.nextLine();
+                if (cardId.matches("[0-9]+")) {
+                    try {
+                        MetroPresentationHelper.displayCardDetails(metroService.getCardDetails(Integer.parseInt(cardId)));
+                    } catch (SQLException | ClassNotFoundException | IOException e) {
+                        e.printStackTrace();
+                    }
+                } else System.out.println("Only Integers are Allowed");
+                break;
+            }
+            case 4: {
+                System.out.print("Enter Your Metro Card Id: ");
+                String cardId = scanner.nextLine();
+                if (cardId.matches("[0-9]+")) {
+                    try {
+                        System.out.print("Enter the amount: ");
+                        String amount = scanner.nextLine();
+                        if (cardId.matches("[0-9]+"))
+                            metroService.updateCardBalance(Integer.parseInt(cardId), Integer.parseInt(amount), true);
+                        else System.out.println("Only Integers are Allowed");
+                    } catch (SQLException | ClassNotFoundException | IOException e) {
+                        e.printStackTrace();
+                    }
+                } else System.out.println("Only Integers are Allowed");
+                break;
+            }
+            case 5: {
+                try {
+                    MetroPresentationHelper.displayStations(metroService.getAllStations());
+                } catch (SQLException | ClassNotFoundException | IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+            case 6: {
+                System.out.print("Enter Your Metro Card Id: ");
+                String cardId = scanner.nextLine();
+                if (cardId.matches("[0-9]+")) {
+                    System.out.println("Select Stations to Swipe In");
+                    try {
+                        MetroPresentationHelper.displayStationNames(metroService.getAllStations());
+                        String stationId = scanner.nextLine();
+                      if (stationId.matches("[0-9]+")) {
+                        metroService.swipeIn(Integer.parseInt(cardId),Integer.parseInt(stationId));
+                    }
+                    } catch (SQLException | ClassNotFoundException | IOException e) {
+                        e.printStackTrace();
+                    } catch (InvalidStationException | InvalidSwipeInException | InsufficientBalanceException customException) {
+                        System.out.println(customException.getMessage());
+                    }
+                }
 
             }
+            case 7:
+                System.out.print("Enter Your Metro Card Id: ");
+                String cardId = scanner.nextLine();
+                if (cardId.matches("[0-9]+")) {
+                    System.out.println("Select Stations to Swipe In");
+                    try {
+                        MetroPresentationHelper.displayStationNames(metroService.getAllStations());
+                        String stationId = scanner.nextLine();
+                        if (stationId.matches("[0-9]+")) {
+                            metroService.swipeOut(Integer.parseInt(cardId), Integer.parseInt(stationId));
+                            }
+                        } catch (SQLException | ClassNotFoundException | IOException e) {
+                            e.printStackTrace();
+                        } catch (InvalidStationException | InvalidSwipeInException | InsufficientBalanceException | InvalidSwipeOutException customException) {
+                        System.out.println(customException.getMessage());
+
+                    }
+                }
         }
     }
 }

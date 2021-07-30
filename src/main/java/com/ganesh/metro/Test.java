@@ -7,7 +7,8 @@ public class Test {
     public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
 
         MetroDaoInterface metroDao = new MetroDao();
-        MetroPresentationHelper.displayTransactions(metroDao.getLastTransaction(1001));
+        //MetroPresentationHelper.displayCardDetails(metroDao.getCardDetails(1001));
+        MetroPresentationHelper.displayStationNames(metroDao.getAllStations());
         //System.out.println("\ud83d\ude01");
 
     }

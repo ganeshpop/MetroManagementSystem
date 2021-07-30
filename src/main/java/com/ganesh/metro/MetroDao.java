@@ -71,6 +71,7 @@ public class MetroDao implements MetroDaoInterface {
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT card_type, balance, active_since FROM cards WHERE card_id = ?");
         preparedStatement.setInt(1, cardId);
         ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
         return new Card(cardId, resultSet.getString("card_type"), resultSet.getInt("balance"), resultSet.getTimestamp("active_since"));
 
     }

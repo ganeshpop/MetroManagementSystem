@@ -22,4 +22,5 @@ public class Card {
         this.balance = balance;
 
     }
+
 }
