@@ -1,4 +1,4 @@
-package com.ganesh.metro;
+package com.ganesh.pojos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

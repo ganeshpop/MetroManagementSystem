@@ -1,4 +1,4 @@
-package com.ganesh.metro;
+package com.ganesh.interfaces;
 
 public interface MetroPresentationInterface {
         void showMenu();

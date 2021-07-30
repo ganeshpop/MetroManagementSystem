@@ -1,4 +1,6 @@
-package com.ganesh.metro;
+package com.ganesh.helper;
+
+import com.ganesh.pojos.Station;
 
 public class MetroServiceHelper {
     public static int calculateFare(Station source, Station destination) {

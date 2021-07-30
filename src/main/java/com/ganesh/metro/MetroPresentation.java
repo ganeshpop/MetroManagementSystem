@@ -4,6 +4,10 @@ import com.ganesh.exceptions.InsufficientBalanceException;
 import com.ganesh.exceptions.InvalidStationException;
 import com.ganesh.exceptions.InvalidSwipeInException;
 import com.ganesh.exceptions.InvalidSwipeOutException;
+import com.ganesh.helper.MetroPresentationHelper;
+import com.ganesh.interfaces.MetroPresentationInterface;
+import com.ganesh.interfaces.MetroServiceInterface;
+import com.ganesh.pojos.Transaction;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -96,7 +100,7 @@ public class MetroPresentation implements MetroPresentationInterface {
                         String amount = scanner.nextLine();
                         if (cardId.matches("[0-9]+")) {
                             if (metroService.rechargeCard(Integer.parseInt(cardId), Integer.parseInt(amount))) {
-                                System.out.println("Recharged of amount " + amount + " Successful");
+                                System.out.println("Recharged of amount " + amount + " Successful " + "Current Balance is " + metroService.getBalance(Integer.parseInt(cardId)));
                             } else System.out.println("Recharge Failed");
                         } else System.out.println("Only Integers are Allowed");
                     } catch (SQLException | ClassNotFoundException | IOException e) {
@@ -119,9 +123,9 @@ public class MetroPresentation implements MetroPresentationInterface {
                 try {
                 if (cardId.matches("[0-9]+")) {
                     System.out.print("Your Current Balance is: " + metroService.getBalance(Integer.parseInt(cardId)));
-                    System.out.print("Select Stations to Swipe In : ");
-
-                        MetroPresentationHelper.displayStationNames(metroService.getAllStations());
+                    System.out.print("\nSelect Stations to Swipe In : ");
+                    MetroPresentationHelper.displayStationNames(metroService.getAllStations());
+                    System.out.println("Enter Station ID: ");
                         String stationId = scanner.nextLine();
                         if (stationId.matches("[0-9]+")) {
                             System.out.println("Swipe In at Station [ "+ stationId + " : " + metroService.swipeIn(Integer.parseInt(cardId), Integer.parseInt(stationId)) + " ] Successful!");

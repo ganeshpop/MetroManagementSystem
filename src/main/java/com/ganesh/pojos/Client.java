@@ -1,4 +1,8 @@
-package com.ganesh.metro;
+package com.ganesh.pojos;
+
+import com.ganesh.helper.MetroPresentationHelper;
+import com.ganesh.interfaces.MetroPresentationInterface;
+import com.ganesh.metro.MetroPresentation;
 
 import java.util.Scanner;
 

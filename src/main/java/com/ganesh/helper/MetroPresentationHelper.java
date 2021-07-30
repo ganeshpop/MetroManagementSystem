@@ -1,4 +1,8 @@
-package com.ganesh.metro;
+package com.ganesh.helper;
+
+import com.ganesh.pojos.Card;
+import com.ganesh.pojos.Station;
+import com.ganesh.pojos.Transaction;
 
 import java.util.Collection;
 import java.util.Scanner;
@@ -23,7 +27,7 @@ public class MetroPresentationHelper {
         }
     }
 
-    public static void displayTransactions(Collection<Transaction> transactions,boolean isSwipeOut){
+    public static void displayTransactions(Collection<Transaction> transactions, boolean isSwipeOut){
             if(isSwipeOut){
                 System.out.println(("--------------- Trip Completed ---------------"));
             }

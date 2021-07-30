@@ -1,4 +1,8 @@
-package com.ganesh.metro;
+package com.ganesh.interfaces;
+
+import com.ganesh.pojos.Card;
+import com.ganesh.pojos.Station;
+import com.ganesh.pojos.Transaction;
 
 import java.io.IOException;
 import java.sql.SQLException;
