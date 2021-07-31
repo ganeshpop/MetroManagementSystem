@@ -18,6 +18,8 @@ public interface MetroServiceInterface {
     Collection<Transaction> getAllTransactions(int cardId) throws SQLException, ClassNotFoundException, IOException;
     Card getCardDetails(int cardId) throws SQLException, ClassNotFoundException, IOException;
     boolean isACard(int cardId) throws SQLException, ClassNotFoundException, IOException;
+    boolean setPassword(int cardId, String password) throws SQLException, ClassNotFoundException, IOException;
+    boolean validatePassword(int cardId, String password) throws SQLException, ClassNotFoundException, IOException;
     boolean rechargeCard(int cardId, int amount) throws SQLException, ClassNotFoundException, IOException;
     Collection<Station> getAllStations() throws SQLException, ClassNotFoundException, IOException;
     String swipeIn(int cardId, int sourceStationId) throws SQLException, ClassNotFoundException, IOException, InsufficientBalanceException, InvalidStationException, InvalidSwipeInException;

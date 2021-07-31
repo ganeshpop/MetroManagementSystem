@@ -62,6 +62,28 @@ public class MetroDao implements MetroDaoInterface {
 
     }
 
+    @Override
+    public boolean setPassword(int cardId, String password) throws SQLException, ClassNotFoundException, IOException {
+        Connection connection = MySQLConnectionHelper.getConnection();
+        PreparedStatement preparedStatement = null;
+        preparedStatement = connection.prepareStatement("UPDATE cards SET password =  ? WHERE card_id = ?;");
+        preparedStatement.setString(1, password);
+        preparedStatement.setInt(2, cardId);
+        int affectedRows = preparedStatement.executeUpdate();
+        connection.commit();
+        return affectedRows > 0;
+    }
+
+    @Override
+    public boolean validatePassword(int cardId, String password) throws SQLException, ClassNotFoundException, IOException {
+        Connection connection = MySQLConnectionHelper.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT card_id FROM cards WHERE card_id = ? AND  password = ?;");
+        preparedStatement.setInt(1,cardId);
+        preparedStatement.setString(2,password);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return resultSet.next();
+    }
+
 
     @Override
     public Card getCardDetails(int cardId) throws SQLException, ClassNotFoundException, IOException {

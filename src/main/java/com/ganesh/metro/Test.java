@@ -12,8 +12,10 @@ public class Test {
         MetroDaoInterface metroDao = new MetroDao();
         System.out.println();
         //MetroPresentationHelper.displayCardDetails(metroDao.getCardDetails(1001));
-        MetroPresentationHelper.displayStationNames(metroDao.getAllStations());
+       // MetroPresentationHelper.displayStationNames(metroDao.getAllStations());
         //System.out.println("\ud83d\ude01");
-
+        System.out.println(metroDao.validatePassword(1011,"1011"));
+        System.out.println(metroDao.setPassword(1011,"1011"));
+        System.out.println(metroDao.setPassword(1011,"1011"));
     }
 }

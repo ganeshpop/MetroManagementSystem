@@ -11,6 +11,7 @@ import com.ganesh.pojos.Card;
 import com.ganesh.pojos.Station;
 import com.ganesh.pojos.Transaction;
 
+import javax.swing.plaf.IconUIResource;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -20,6 +21,7 @@ public class MetroService implements MetroServiceInterface {
 
     @Override
     public int getBalance(int cardId) throws SQLException, IOException, ClassNotFoundException {
+        if(metroDao.getCardDetails(cardId) == null) return -1;
         return metroDao.getCardDetails(cardId).getBalance();
     }
 
@@ -47,6 +49,16 @@ public class MetroService implements MetroServiceInterface {
     }
 
     @Override
+    public boolean setPassword(int cardId, String password) throws SQLException, ClassNotFoundException, IOException {
+        return metroDao.setPassword(cardId,password);
+    }
+
+    @Override
+    public boolean validatePassword(int cardId, String password) throws SQLException, ClassNotFoundException, IOException {
+        return metroDao.validatePassword(cardId, password);
+    }
+
+    @Override
     public boolean rechargeCard(int cardId, int amount) throws SQLException, ClassNotFoundException, IOException {
             if(amount > 0) return metroDao.rechargeCard(cardId, amount);
             else return false;
@@ -64,8 +76,9 @@ public class MetroService implements MetroServiceInterface {
            3. Validate the minimum required balance in the card. The user should have minimum balance of Rs 20 in the card. If the balance is not there, throw custom exception with appropriate message to user and do not allow to swipe in.
            4. On successful swipe in, which means if the minimum balance is present then print the message as “You have successfully swiped in at the station” + <Source Station Name>.
         */
-        if(metroDao.isAStation(sourceStationId)){
+        if(metroDao.isAStation(sourceStationId)) {
             if(metroDao.getCardDetails(cardId).getBalance() >= 20) {
+                System.out.println("0000 "+ metroDao.getCardDetails(cardId).getBalance());
                 Transaction lastTransaction =  metroDao.getLastTransaction(cardId).get(0);
                 if (lastTransaction.getTransactionId() == 0 || lastTransaction.getDestinationStation() != null) {
                     metroDao.createTransaction(new Transaction(cardId, new Station(sourceStationId)));
@@ -91,8 +104,8 @@ public class MetroService implements MetroServiceInterface {
                 Transaction lastTransaction =  metroDao.getLastTransaction(cardId).get(0);
                 if (lastTransaction.getSourceStation() != null && lastTransaction.getDestinationStation() == null) {
                     int fare = MetroServiceHelper.calculateFare(lastTransaction.getSourceStation(), new Station(destinationStationId));
-                    metroDao.completeTransaction(new Transaction(lastTransaction.getCardId(),new Station(destinationStationId),fare));
-                    metroDao.chargeCard(cardId, fare);
+                    if(metroDao.completeTransaction(new Transaction(lastTransaction.getTransactionId(),new Station(destinationStationId),fare)))
+                        metroDao.chargeCard(cardId, fare);
                 } else throw new InvalidSwipeOutException();
         } else throw new InvalidStationException();
         return metroDao.getLastTransaction(cardId).get(0);

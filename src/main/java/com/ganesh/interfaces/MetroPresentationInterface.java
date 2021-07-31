@@ -1,7 +1,8 @@
 package com.ganesh.interfaces;
 
 public interface MetroPresentationInterface {
-        void showMenu();
-        void performMenu(int choice);
+        void showMenu(int cardId);
+        int performMenu(int choice, int cardId);
+        int authenticateUser();
 
 }
