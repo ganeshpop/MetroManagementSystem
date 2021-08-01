@@ -1,9 +1,11 @@
 package com.ganesh.exceptions;
 
+import com.ganesh.helper.Color;
+
 public class InvalidSwipeOutException extends Exception {
 
     public InvalidSwipeOutException() {
-        System.out.println("You Have not Swiped In at any station - Invalid Swipe Out Action");
+        super(Color.ANSI_RED + "You Have not Swiped In at any station - Invalid Swipe Out Action");
     }
 
     public InvalidSwipeOutException(String message) {

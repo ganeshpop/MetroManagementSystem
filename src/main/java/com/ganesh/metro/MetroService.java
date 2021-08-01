@@ -102,7 +102,9 @@ public class MetroService implements MetroServiceInterface {
                 }
                 else throw new InvalidSwipeInException();
             } else throw new InsufficientBalanceException();
-        } else throw new InvalidStationException();
+        } else {
+            throw new InvalidStationException();
+        }
 
     }
 

@@ -1,8 +1,10 @@
 package com.ganesh.exceptions;
 
+import com.ganesh.helper.Color;
+
 public class InvalidStationException extends Exception {
     public InvalidStationException() {
-        super("You Have Selected an Invalid Station, Please Try Again");
+        super(Color.ANSI_RED + "You Have Selected an Invalid Station, Please Try Again");
     }
 
     public InvalidStationException(String message) {

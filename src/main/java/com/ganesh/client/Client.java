@@ -1,5 +1,6 @@
 package com.ganesh.client;
 
+import com.ganesh.helper.Color;
 import com.ganesh.helper.MetroPresentationHelper;
 import com.ganesh.interfaces.MetroPresentationInterface;
 import com.ganesh.metro.MetroPresentation;
@@ -15,7 +16,7 @@ public class Client {
                 if(cardId < 0) continue;
             while (true) {
                 metroPresentation.showMenu(cardId);
-                System.out.println("Enter choice : ");
+                System.out.println(Color.ANSI_RESET + "Enter choice : ");
                 String choice = scanner.nextLine();
                 if(metroPresentation.performMenu(MetroPresentationHelper.isInt(choice), cardId) < 0)
                     break;

@@ -1,8 +1,10 @@
 package com.ganesh.exceptions;
 
+import com.ganesh.helper.Color;
+
 public class InsufficientBalanceException extends Exception {
     public InsufficientBalanceException() {
-        super("Your Card has Insufficient Balance \nPlease Recharge Your Card\nHappy Travelling\ud83d\ude01 ");
+        super(Color.ANSI_RED + "Your Card has Insufficient Balance \nPlease Recharge Your Card\nHappy Travelling\ud83d\ude01 ");
     }
 
     public InsufficientBalanceException(String message) {

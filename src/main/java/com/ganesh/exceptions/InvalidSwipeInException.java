@@ -1,8 +1,10 @@
 package com.ganesh.exceptions;
 
+import com.ganesh.helper.Color;
+
 public class InvalidSwipeInException extends Exception {
     public InvalidSwipeInException() {
-        System.out.println("You have not Swiped Out from Previous Trip - Invalid Swipe In Action");
+        super(Color.ANSI_RED + "You have not Swiped Out from Previous Trip - Invalid Swipe In Action");
     }
 
     public InvalidSwipeInException(String message) {
