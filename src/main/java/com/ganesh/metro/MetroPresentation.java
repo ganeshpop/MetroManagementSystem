@@ -24,7 +24,9 @@ public class MetroPresentation implements MetroPresentationInterface {
     public int authenticateUser() {
         System.out.println(Color.ANSI_GREEN + "--------------Welcome To City Metro--------------");
         System.out.println(Color.ANSI_BLUE +"\t\t1.Login  (For Existing User)");
-        System.out.println("\t\t2.SignUp (If You are New User)" + Color.ANSI_RESET);
+        System.out.println("\t\t2.SignUp (If You are New User)");
+        System.out.println("\t\t3.Exit " + Color.ANSI_RESET);
+        System.out.println("Enter Your Choice: ");
         String userInput = scanner.nextLine();
         int choice = MetroPresentationHelper.isInt(userInput);
         int intCardId = -1;
@@ -82,6 +84,10 @@ public class MetroPresentation implements MetroPresentationInterface {
                         e.printStackTrace();
                     }
                     break;
+                }
+                case 3: {
+                    System.out.println(Color.ANSI_PURPLE + "Thanks for using City Metro Services!");
+                    System.exit(0);
                 }
                 default:
                     System.out.println("Invalid Choice");
