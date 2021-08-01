@@ -27,9 +27,11 @@ public class MetroDaoHelper {
             Station sourceStation = (resultSet.getString("source_station_id") != null) ? new Station(resultSet.getInt("source_station_id"), resultSet.getString("source_station_name")) : null;
             Station destinationStation = (resultSet.getString("destination_station_id") != null) ? new Station(resultSet.getInt("destination_station_id"), resultSet.getString("destination_station_name")) : null;
             int fare = resultSet.getInt("fare");
+            int fine = resultSet.getInt("fine");
             Timestamp swipeInTimeStamp = resultSet.getTimestamp("swipe_in_time_stamp");
             Timestamp swipeOutTimeStamp = resultSet.getTimestamp("swipe_out_time_stamp");
-            transactions.add(new Transaction(cardId, transactionId, sourceStation, destinationStation, fare, swipeInTimeStamp, swipeOutTimeStamp));
+            int duration = resultSet.getInt("duration");
+            transactions.add(new Transaction(cardId, transactionId, sourceStation, destinationStation, fare, fine, swipeInTimeStamp, swipeOutTimeStamp, duration));
         }
         if(transactions.size() == 0) {
             transactions.add(new Transaction());

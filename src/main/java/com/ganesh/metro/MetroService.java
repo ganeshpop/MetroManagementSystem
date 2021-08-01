@@ -11,7 +11,6 @@ import com.ganesh.pojos.Card;
 import com.ganesh.pojos.Station;
 import com.ganesh.pojos.Transaction;
 
-import javax.swing.plaf.IconUIResource;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -36,6 +35,24 @@ public class MetroService implements MetroServiceInterface {
     @Override
     public Collection<Transaction> getAllTransactions(int cardId) throws SQLException, ClassNotFoundException, IOException {
         return metroDao.getAllTransactions(cardId);
+    }
+
+////
+    public int getFine(int transactionId) throws SQLException, ClassNotFoundException, IOException {
+        int duration =  metroDao.getTransactionDuration(transactionId);
+        int extraHours;
+        if (duration >= 0) {
+            if(duration == 0) return 0;
+            if(duration - 90 > 0 ) {
+                int extraMinutes = duration - 90;
+                if(extraMinutes % 60 == 0) {
+                    extraHours = extraMinutes / 60;
+                } else {
+                    extraHours = 1 + extraMinutes / 60;
+                }
+                return extraHours * 100;
+            } else return 0;
+        }else return -1;
     }
 
     @Override
@@ -78,7 +95,6 @@ public class MetroService implements MetroServiceInterface {
         */
         if(metroDao.isAStation(sourceStationId)) {
             if(metroDao.getCardDetails(cardId).getBalance() >= 20) {
-                System.out.println("0000 "+ metroDao.getCardDetails(cardId).getBalance());
                 Transaction lastTransaction =  metroDao.getLastTransaction(cardId).get(0);
                 if (lastTransaction.getTransactionId() == 0 || lastTransaction.getDestinationStation() != null) {
                     metroDao.createTransaction(new Transaction(cardId, new Station(sourceStationId)));
@@ -103,8 +119,12 @@ public class MetroService implements MetroServiceInterface {
         if(metroDao.isAStation(destinationStationId)){
                 Transaction lastTransaction =  metroDao.getLastTransaction(cardId).get(0);
                 if (lastTransaction.getSourceStation() != null && lastTransaction.getDestinationStation() == null) {
+                    metroDao.setDestinationStation(destinationStationId, lastTransaction.getTransactionId());
                     int fare = MetroServiceHelper.calculateFare(lastTransaction.getSourceStation(), new Station(destinationStationId));
-                    if(metroDao.completeTransaction(new Transaction(lastTransaction.getTransactionId(),new Station(destinationStationId),fare)))
+                    int fine = getFine(lastTransaction.getTransactionId());
+                    fare += fine;
+                    int duration = metroDao.getTransactionDuration(lastTransaction.getTransactionId());
+                    if (metroDao.completeTransaction(new Transaction(lastTransaction.getTransactionId(),fare,fine,duration)))
                         metroDao.chargeCard(cardId, fare);
                 } else throw new InvalidSwipeOutException();
         } else throw new InvalidStationException();

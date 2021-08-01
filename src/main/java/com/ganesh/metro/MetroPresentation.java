@@ -52,7 +52,7 @@ public class MetroPresentation implements MetroPresentationInterface {
                         } catch (SQLException | ClassNotFoundException | IOException e) {
                             e.printStackTrace();
                         }
-                    }
+                    } else System.out.println("Card ID Only Contains Integers");
                     break;
                 }
                 case 2: {
@@ -146,13 +146,9 @@ public class MetroPresentation implements MetroPresentationInterface {
             case 5: {
                     try {
                         int balance = metroService.getBalance(cardId);
-                        if (balance > 0) {
+                        if (balance < 20) {
                             System.out.println("Your Current Balance is: " + balance);
-                            if (balance < 20) throw new InsufficientBalanceException();
-                        }
-                        else {
-                            System.out.println("Invalid Card ID");
-                            break;
+                            throw new InsufficientBalanceException();
                         }
                     System.out.print("\nSelect Stations to Swipe In : ");
                     MetroPresentationHelper.displayStationNames(metroService.getAllStations());

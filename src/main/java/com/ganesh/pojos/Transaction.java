@@ -15,23 +15,29 @@ public class Transaction {
     private  Station sourceStation;
     private  Station destinationStation;
     private  int fare;
+    private int fine;
     private Timestamp swipeInTimeStamp;
     private Timestamp swipeOutTimeStamp;
+    private int duration;
 
-    public Transaction(int cardId, int transactionId, Station sourceStation, Station destinationStation, int fare, Timestamp swipeInTimeStamp, Timestamp swipeOutTimeStamp) {
+    public Transaction(int cardId, int transactionId, Station sourceStation, Station destinationStation, int fare,int fine, Timestamp swipeInTimeStamp, Timestamp swipeOutTimeStamp, int duration) {
         this.cardId = cardId;
         this.transactionId = transactionId;
         this.sourceStation = sourceStation;
         this.destinationStation = destinationStation;
         this.fare = fare;
+        this.fine = fine;
         this.swipeInTimeStamp = swipeInTimeStamp;
         this.swipeOutTimeStamp = swipeOutTimeStamp;
+        this.duration = duration;
+
     }
 
-    public Transaction(int transactionId, Station destinationStation, int fare) {
+    public Transaction(int transactionId, int fare, int fine,int duration) {
         this.transactionId = transactionId;
-        this.destinationStation = destinationStation;
         this.fare = fare;
+        this.fine = fine;
+        this.duration = duration;
     }
 
     public Transaction(int cardId, Station sourceStation){

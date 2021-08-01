@@ -41,27 +41,39 @@ public class MetroPresentationHelper {
                     }
                     StringBuilder transactionString = new StringBuilder();
                     transactionString.append("-------------- Trip " + transaction.getTransactionId() + " Details --------------")
-                                    .append("\nCard ID: ")
+                                    .append("\nCard ID ").append("\ud83d\udcb3: ")
                                     .append(transaction.getCardId())
-                                    .append("\nSwipe In Time: ")
+                                    .append("\nSwipe In Time ").append("\u23f0: ")
                                     .append(transaction.getSwipeInTimeStamp().toString())
                                     .append("\n(Source)\n\t ")
                                     .append(transaction.getSourceStation());
                     if(transaction.getDestinationStation() != null) {
                                 transactionString.append("\n(Destination)\n\t ")
                                     .append(transaction.getDestinationStation())
-                                    .append("\nSwipe Out Time: ")
+                                    .append("\nSwipe Out Time ").append("\u23f0: ")
                                     .append(transaction.getSwipeOutTimeStamp().toString())
-                                    .append("\nFare").append("\ud83d\udcb0: ")
-                                    .append(transaction.getFare());
+                                    .append("\nTravel Fare ").append("\ud83d\udcb0: ")
+                                    .append(transaction.getFare() - transaction.getFine())
+                                    .append("\nFine ").append("\ud83d\udcb0: ")
+                                    .append(transaction.getFine())
+                                    .append("\nTotal Fare ").append("\ud83d\udcb0: ")
+                                    .append(transaction.getFare())
+                                    .append("\nTravel Duration ").append("\u23f0: ")
+                                    .append(transaction.getDuration())
+                                    .append(" Minutes [Free Travel Time 90 Minutes ]");
+                                    if(transaction.getFine() > 0 && transaction.getDuration() > 90) {
+                                        transactionString.append("\nYou Have Been Charged a Fine of ").append(transaction.getFine())
+                                                .append("/- as You Have Spent an Excess of ").append((transaction.getDuration() - 90))
+                                                .append(" Minutes ").append("\ud83d\ude22");
+                                    } else {
+                                        transactionString.append("\nYou Have Completed Your Travel Within 90 Minutes, Fine Not Applicable ").append("\ud83d\ude00");
+                                    }
                     } else {
                         transactionString.append("\n(Destination)\n\t ")
                                 .append("[Trip is Not Completed]")
-                                .append("\nFare & Swipe Out Time Not Available");
+                                .append("\nFare, Fine, Duration & Swipe Out Time Not Available").append("\ud83d\ude34");
 
                     }
-
-
                     System.out.println(transactionString);
                 }
             }
