@@ -1,4 +1,4 @@
-package com.ganesh.interfaces;
+package com.ganesh.persistence;
 
 import com.ganesh.pojos.Card;
 import com.ganesh.pojos.Station;

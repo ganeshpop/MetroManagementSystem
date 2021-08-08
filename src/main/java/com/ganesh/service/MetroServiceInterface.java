@@ -1,4 +1,4 @@
-package com.ganesh.interfaces;
+package com.ganesh.service;
 
 import com.ganesh.exceptions.InsufficientBalanceException;
 import com.ganesh.exceptions.InvalidStationException;

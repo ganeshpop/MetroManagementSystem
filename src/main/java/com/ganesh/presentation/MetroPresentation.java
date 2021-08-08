@@ -1,13 +1,12 @@
-package com.ganesh.metro;
+package com.ganesh.presentation;
 
 import com.ganesh.exceptions.InsufficientBalanceException;
 import com.ganesh.exceptions.InvalidStationException;
 import com.ganesh.exceptions.InvalidSwipeInException;
 import com.ganesh.exceptions.InvalidSwipeOutException;
-import com.ganesh.helper.Color;
-import com.ganesh.helper.MetroPresentationHelper;
-import com.ganesh.interfaces.MetroPresentationInterface;
-import com.ganesh.interfaces.MetroServiceInterface;
+import com.ganesh.pojos.Color;
+import com.ganesh.service.MetroService;
+import com.ganesh.service.MetroServiceInterface;
 import com.ganesh.pojos.Transaction;
 
 import java.io.IOException;
@@ -136,9 +135,11 @@ public class MetroPresentation implements MetroPresentationInterface {
                 try {
                     System.out.print(Color.ANSI_GREEN + "Enter the amount: ");
                     String amount = scanner.nextLine();
-                    if (metroService.rechargeCard(cardId, Integer.parseInt(amount))) {
-                        System.out.println("Recharged of amount " + amount + " Successful " + "Current Balance is " + metroService.getBalance(cardId) + Color.ANSI_RESET);
-                    } else System.out.println(Color.ANSI_RED + "Recharge Failed" + Color.ANSI_RESET);
+                    if(MetroPresentationHelper.isInt(amount) > 0) {
+                        if (metroService.rechargeCard(cardId, Integer.parseInt(amount))) {
+                            System.out.println("Recharged of amount " + amount + " Successful " + "Current Balance is " + metroService.getBalance(cardId) + Color.ANSI_RESET);
+                        } else System.out.println(Color.ANSI_RED + "Recharge Failed" + Color.ANSI_RESET);
+                    } else System.out.println(Color.ANSI_RED + "Only Positive Integers Allowed" + Color.ANSI_RESET);
                 } catch (SQLException | ClassNotFoundException | IOException e) {
                     e.printStackTrace();
                 }

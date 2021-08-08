@@ -1,9 +1,9 @@
 package com.ganesh.client;
 
-import com.ganesh.helper.Color;
-import com.ganesh.helper.MetroPresentationHelper;
-import com.ganesh.interfaces.MetroPresentationInterface;
-import com.ganesh.metro.MetroPresentation;
+import com.ganesh.pojos.Color;
+import com.ganesh.presentation.MetroPresentationHelper;
+import com.ganesh.presentation.MetroPresentationInterface;
+import com.ganesh.presentation.MetroPresentation;
 
 import java.util.Scanner;
 

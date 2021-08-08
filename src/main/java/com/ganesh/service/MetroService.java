@@ -1,12 +1,11 @@
-package com.ganesh.metro;
+package com.ganesh.service;
 
 import com.ganesh.exceptions.InsufficientBalanceException;
 import com.ganesh.exceptions.InvalidStationException;
 import com.ganesh.exceptions.InvalidSwipeInException;
 import com.ganesh.exceptions.InvalidSwipeOutException;
-import com.ganesh.helper.MetroServiceHelper;
-import com.ganesh.interfaces.MetroDaoInterface;
-import com.ganesh.interfaces.MetroServiceInterface;
+import com.ganesh.persistence.MetroDao;
+import com.ganesh.persistence.MetroDaoInterface;
 import com.ganesh.pojos.Card;
 import com.ganesh.pojos.Station;
 import com.ganesh.pojos.Transaction;

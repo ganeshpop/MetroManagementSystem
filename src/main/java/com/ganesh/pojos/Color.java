@@ -1,4 +1,4 @@
-package com.ganesh.helper;
+package com.ganesh.pojos;
 
 
 public class Color {

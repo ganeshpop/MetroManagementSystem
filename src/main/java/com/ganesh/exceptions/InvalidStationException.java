@@ -1,6 +1,6 @@
 package com.ganesh.exceptions;
 
-import com.ganesh.helper.Color;
+import com.ganesh.pojos.Color;
 
 public class InvalidStationException extends Exception {
     public InvalidStationException() {

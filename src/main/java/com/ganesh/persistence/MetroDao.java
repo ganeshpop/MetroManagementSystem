@@ -1,8 +1,5 @@
-package com.ganesh.metro;
+package com.ganesh.persistence;
 
-import com.ganesh.helper.MetroDaoHelper;
-import com.ganesh.helper.MySQLConnectionHelper;
-import com.ganesh.interfaces.MetroDaoInterface;
 import com.ganesh.pojos.Card;
 import com.ganesh.pojos.Station;
 import com.ganesh.pojos.Transaction;
@@ -112,8 +109,8 @@ public class MetroDao implements MetroDaoInterface {
     @Override
     public boolean setDestinationStation(int stationId, int transactionId) throws SQLException, ClassNotFoundException, IOException {
         Connection connection = MySQLConnectionHelper.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE transactions SET destination_station_id = ?, swipe_out_time_stamp = (SYSDATE() + INTERVAL 15 MINUTE) WHERE transaction_id = ?;");
-        //PreparedStatement preparedStatement = connection.prepareStatement("UPDATE transactions SET destination_station_id = ?, swipe_out_time_stamp = (SYSDATE() + INTERVAL 180 MINUTE) WHERE transaction_id = ?;");
+        //PreparedStatement preparedStatement = connection.prepareStatement("UPDATE transactions SET destination_station_id = ?, swipe_out_time_stamp = (SYSDATE() + INTERVAL 15 MINUTE) WHERE transaction_id = ?;");
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE transactions SET destination_station_id = ?, swipe_out_time_stamp = (SYSDATE() + INTERVAL 200 MINUTE) WHERE transaction_id = ?;");
         preparedStatement.setInt(1, stationId);
         preparedStatement.setInt(2, transactionId);
         int affectedRows = preparedStatement.executeUpdate();
