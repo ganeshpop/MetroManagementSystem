@@ -5,9 +5,13 @@ import com.ganesh.exceptions.InvalidStationException;
 import com.ganesh.exceptions.InvalidSwipeInException;
 import com.ganesh.exceptions.InvalidSwipeOutException;
 import com.ganesh.pojos.Color;
-import com.ganesh.service.MetroService;
-import com.ganesh.service.MetroServiceInterface;
 import com.ganesh.pojos.Transaction;
+import com.ganesh.service.card.CardService;
+import com.ganesh.service.card.CardServiceInterface;
+import com.ganesh.service.station.StationService;
+import com.ganesh.service.station.StationServiceInterface;
+import com.ganesh.service.transaction.TransactionService;
+import com.ganesh.service.transaction.TransactionServiceInterface;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,7 +19,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MetroPresentation implements MetroPresentationInterface {
-    MetroServiceInterface metroService = new MetroService();
+    CardServiceInterface cardService = new CardService();
+    StationServiceInterface stationService = new StationService();
+    TransactionServiceInterface transactionService = new TransactionService();
     Scanner scanner = new Scanner(System.in);
 
 
@@ -37,10 +43,10 @@ public class MetroPresentation implements MetroPresentationInterface {
                     if (cardId.matches("[0-9]+")) {
                         try {
                             intCardId = Integer.parseInt(cardId);
-                            if (metroService.isACard(intCardId)) {
+                            if (cardService.isACard(intCardId)) {
                                 System.out.println("Enter Your Password: ");
                                 String password = scanner.nextLine();
-                                if (metroService.validatePassword(intCardId, password)) {
+                                if (cardService.validatePassword(intCardId, password)) {
                                     System.out.println("Login Successful!" + Color.ANSI_RESET);
                                     return intCardId;
                                 } else {
@@ -59,7 +65,7 @@ public class MetroPresentation implements MetroPresentationInterface {
                 }
                 case 2: {
                     try {
-                        intCardId = metroService.addCard(MetroPresentationHelper.createCard());
+                        intCardId = cardService.addCard(MetroPresentationHelper.createCard());
                         if (intCardId > 0) {
                             System.out.println(Color.ANSI_GREEN + "Card Created Successfully, Your Card ID is " + intCardId + Color.ANSI_RESET);
                             System.out.println(Color.ANSI_RESET + "Create a Password for Your New Card");
@@ -69,7 +75,7 @@ public class MetroPresentation implements MetroPresentationInterface {
                                 System.out.println("Conform Your Password: ");
                                 String passwordTwo = scanner.nextLine();
                                 if (passwordOne.equals(passwordTwo)) {
-                                    if (metroService.setPassword(intCardId, passwordOne)) {
+                                    if (cardService.setPassword(intCardId, passwordOne)) {
                                         System.out.println("Password Set Successfully" + Color.ANSI_RESET);
                                         break;
                                     } else
@@ -117,7 +123,7 @@ public class MetroPresentation implements MetroPresentationInterface {
 
             case 1: {
                 try {
-                    MetroPresentationHelper.displayTransactions(metroService.getAllTransactions(cardId), false);
+                    MetroPresentationHelper.displayTransactions(transactionService.getAllTransactions(cardId), false);
                 } catch (SQLException | ClassNotFoundException | IOException e) {
                     e.printStackTrace();
                 }
@@ -125,7 +131,7 @@ public class MetroPresentation implements MetroPresentationInterface {
             }
             case 2: {
                 try {
-                    MetroPresentationHelper.displayCardDetails(metroService.getCardDetails(cardId));
+                    MetroPresentationHelper.displayCardDetails(cardService.getCardDetails(cardId));
                 } catch (SQLException | ClassNotFoundException | IOException e) {
                     e.printStackTrace();
                 }
@@ -136,8 +142,8 @@ public class MetroPresentation implements MetroPresentationInterface {
                     System.out.print(Color.ANSI_GREEN + "Enter the amount: ");
                     String amount = scanner.nextLine();
                     if(MetroPresentationHelper.isInt(amount) > 0) {
-                        if (metroService.rechargeCard(cardId, Integer.parseInt(amount))) {
-                            System.out.println("Recharged of amount " + amount + " Successful " + "Current Balance is " + metroService.getBalance(cardId) + Color.ANSI_RESET);
+                        if (cardService.rechargeCard(cardId, Integer.parseInt(amount))) {
+                            System.out.println("Recharged of amount " + amount + " Successful " + "Current Balance is " + cardService.getBalance(cardId) + Color.ANSI_RESET);
                         } else System.out.println(Color.ANSI_RED + "Recharge Failed" + Color.ANSI_RESET);
                     } else System.out.println(Color.ANSI_RED + "Only Positive Integers Allowed" + Color.ANSI_RESET);
                 } catch (SQLException | ClassNotFoundException | IOException e) {
@@ -147,7 +153,7 @@ public class MetroPresentation implements MetroPresentationInterface {
             }
             case 4: {
                 try {
-                    MetroPresentationHelper.displayStations(metroService.getAllStations());
+                    MetroPresentationHelper.displayStations(stationService.getAllStations());
                 } catch (SQLException | ClassNotFoundException | IOException e) {
                     e.printStackTrace();
                 }
@@ -155,17 +161,17 @@ public class MetroPresentation implements MetroPresentationInterface {
             }
             case 5: {
                 try {
-                    int balance = metroService.getBalance(cardId);
+                    int balance = cardService.getBalance(cardId);
                     if (balance < 20) {
                         System.out.println(Color.ANSI_BLUE + "Your Current Balance is: " + balance);
                         throw new InsufficientBalanceException();
                     }
                     System.out.print(Color.ANSI_BLUE + "\nSelect Stations to Swipe In : ");
-                    MetroPresentationHelper.displayStationNames(metroService.getAllStations());
+                    MetroPresentationHelper.displayStationNames(stationService.getAllStations());
                     System.out.println("Enter Station ID: ");
                     String stationId = scanner.nextLine();
                     if (stationId.matches("[0-9]+")) {
-                        System.out.println(Color.ANSI_GREEN + "Swipe In at Station " + Color.ANSI_BLUE + " [ " + Color.ANSI_RESET  + stationId +  Color.ANSI_BLUE + " : " + Color.ANSI_RESET  + metroService.swipeIn(cardId, Integer.parseInt(stationId)) + Color.ANSI_BLUE +  " ] " + Color.ANSI_GREEN + " Successful!" + Color.ANSI_RESET);
+                        System.out.println(Color.ANSI_GREEN + "Swipe In at Station " + Color.ANSI_BLUE + " [ " + Color.ANSI_RESET  + stationId +  Color.ANSI_BLUE + " : " + Color.ANSI_RESET  + transactionService.swipeIn(cardId, Integer.parseInt(stationId)) + Color.ANSI_BLUE +  " ] " + Color.ANSI_GREEN + " Successful!" + Color.ANSI_RESET);
                     } else System.out.println(Color.ANSI_RED + "Only Integers Allowed" + Color.ANSI_RESET);
 
                 } catch (SQLException | ClassNotFoundException | IOException e) {
@@ -178,13 +184,13 @@ public class MetroPresentation implements MetroPresentationInterface {
             case 6: {
                 System.out.println(Color.ANSI_BLUE + "Select Stations to Swipe Out");
                 try {
-                    MetroPresentationHelper.displayStationNames(metroService.getAllStations());
+                    MetroPresentationHelper.displayStationNames(stationService.getAllStations());
                     String stationId = scanner.nextLine();
                     if (stationId.matches("[0-9]+")) {
                         ArrayList<Transaction> transactions = new ArrayList<>();
-                        transactions.add(metroService.swipeOut(cardId, Integer.parseInt(stationId)));
+                        transactions.add(transactionService.swipeOut(cardId, Integer.parseInt(stationId)));
                         MetroPresentationHelper.displayTransactions(transactions, true);
-                        int balance = metroService.getBalance(cardId);
+                        int balance = cardService.getBalance(cardId);
                         if (balance > 0) System.out.println("Your Current Balance is: " + balance + Color.ANSI_RESET);
 
                     }
@@ -202,13 +208,13 @@ public class MetroPresentation implements MetroPresentationInterface {
                     try {
                         System.out.print(Color.ANSI_RESET + "Enter Your Current Password:");
                         String password = scanner.nextLine();
-                        if (metroService.validatePassword(cardId, password)) {
+                        if (cardService.validatePassword(cardId, password)) {
                             System.out.println("Enter New Password: ");
                             String passwordOne = scanner.nextLine();
                             System.out.println("Conform Your New Password: ");
                             String passwordTwo = scanner.nextLine();
                             if (passwordOne.equals(passwordTwo)) {
-                                if (metroService.setPassword(cardId, passwordOne))
+                                if (cardService.setPassword(cardId, passwordOne))
                                     System.out.println(Color.ANSI_GREEN + "Password Updated Successfully" + Color.ANSI_RESET);
                                 break;
                             } else System.out.println(Color.ANSI_RED + "Passwords Didn't Match, Try Again" +  Color.ANSI_RESET);

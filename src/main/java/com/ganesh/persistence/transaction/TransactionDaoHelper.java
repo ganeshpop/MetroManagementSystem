@@ -1,4 +1,4 @@
-package com.ganesh.persistence;
+package com.ganesh.persistence.transaction;
 
 import com.ganesh.pojos.Station;
 import com.ganesh.pojos.Transaction;
@@ -8,17 +8,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-public class MetroDaoHelper {
+public class TransactionDaoHelper {
 
-    public static ArrayList<Station> generateStations(ResultSet resultSet) throws SQLException {
-        ArrayList<Station> stations = new ArrayList<>();
-        while (resultSet.next()) {
-            int stationId = resultSet.getInt("station_id");
-            String stationName = resultSet.getString("station_name");
-            stations.add(new Station(stationId,stationName));
-        }
-        return stations;
-    }
     public static ArrayList<Transaction> generateTransactions(ResultSet resultSet) throws SQLException {
         ArrayList<Transaction> transactions = new ArrayList<>();
         while (resultSet.next()) {
@@ -38,5 +29,4 @@ public class MetroDaoHelper {
         }
         return transactions;
     }
-
 }

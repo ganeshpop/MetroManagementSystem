@@ -1,8 +1,8 @@
-package com.ganesh.service;
+package com.ganesh.service.transaction;
 
 import com.ganesh.pojos.Station;
 
-public class MetroServiceHelper {
+public class TransactionServiceHelper {
     public static int calculateFare(Station source, Station destination) {
         if(source.getStationId() > destination.getStationId()){
             return (source.getStationId() - destination.getStationId()) * 5;
